@@ -6,9 +6,9 @@ names(housing)
 #
 # I'm just getting an all x by all y to get a visual of what the relationships look like
 # above. Most of the data looks to be useful, except for the following ones:
-# • Charles river access (but that is binary)
-# • Highway access (I guess that should be expected)
-# • Tax rate (appears to be very lopsided, almost binary)
+# â€¢ Charles river access (but that is binary)
+# â€¢ Highway access (I guess that should be expected)
+# â€¢ Tax rate (appears to be very lopsided, almost binary)
 # The Boston data frame has 506 rows and 14 columns.
 #Correlation matrix
 install.packages("corrplot")
@@ -144,18 +144,18 @@ calc.relimp(linearModel,type=c("lmg","last","first","pratt"),
             rela=TRUE)
 # In the relative-importance metrics, we see computed values for each of the possible
 # parameters in our model. This is what the parameters are about:
-#   • The lmg column is the coefficient of the variable from the model.
-# • The last column (also called usefulness) looks at what the effect of adding
+#   â€¢ The lmg column is the coefficient of the variable from the model.
+# â€¢ The last column (also called usefulness) looks at what the effect of adding
 # this variable into the model would be, effectively removing it, on the other
 # variables. We are looking for the last values greater than lmg, as those
 # variables are generating more effect. This would include NOX, DIS, RAD,
 # PRATIO, and LSTAT.
-# • The first column (squared covariance between y and the variable) looks at the
+# â€¢ The first column (squared covariance between y and the variable) looks at the
 # variable as if none of the other variables were present in the model. We are
 # interested in cases where the first column value is greater than lmg, as those
 # variables are truly generating more effect. These include CRIM, ZN, INDUS,
 # NOX, AGE, RAD, and B.
-# • The pratt column (product of the standard coefficient and the correlation)
+# â€¢ The pratt column (product of the standard coefficient and the correlation)
 # is based on Pratt's contribution in 1987. The downfall is that negative values
 # need to be ignored as not applicable. We are again looking for pratt values
 # over lmg such as CRIM, ZN, RM, and PRATIO.
@@ -195,8 +195,8 @@ plot(knnModel)
 
 # NAIVE BAYES
 
-# Naïve Bayes is the process of determining classifiers based on probability, assuming
-# the features are independent (the assumption is the naïve part).
+# NaÃ¯ve Bayes is the process of determining classifiers based on probability, assuming
+# the features are independent (the assumption is the naÃ¯ve part).
 install.packages("e1071")
 library(e1071)
 # We produce our estimates/model calling upon the naiveBayes function in much
@@ -207,7 +207,7 @@ nb <- naiveBayes(MDEV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE +
                    DIS + RAD + TAX + PRATIO + B + LSTAT, data=housingTraining)
 # We can examine the parameters generated for the effect of each variable as follows:
 nb$tables$TAX
-# The apriori value of the Naïve Bayes result contains the class distribution for the
+# The apriori value of the NaÃ¯ve Bayes result contains the class distribution for the
 # dependent variable. We can see this visually by plotting the result. I think it looks
 # very similar to the previous knn model result: again, we have the tight overlap in
 # the middle with both tails skewed. This does match our data. We can plot the result
@@ -218,13 +218,13 @@ plot(nb$apriori)
 # Nutshell Sanfrancisco, Yanchang Zhao and justin p.285)
 
 # A standard method to develop a model, regardless of technique, is the train
-# method. The train method has only one required parameter—sample data.
+# method. The train method has only one required parameterâ€”sample data.
 # All the other parameters are optional.
 # Some of the parameters of the train method are described in the following table:
 # Parameter - Description
 # (x) This is the sample data
 # (y) This is the vector of outcomes
-# (form) This is the formula in the format result ~ var1 + var2 …
+# (form) This is the formula in the format result ~ var1 + var2 â€¦
 # (data) This is the dataframe where variables referenced in the formula can be taken
 # (weights) This is the vector of case weights if applicable for the model
 # (subset) This is the vector of indices to use for training
@@ -324,8 +324,8 @@ diff <- forestPredict - housingTesting$MDEV
 sumofsquares(diff)
 # If we gather the results of the sumofsquares test from the models in the chapter, we
 # come across the following findings:
-#   • 3,555 from the linear regression
-# • 3,926 from the decision tree
-# • 11,016 from the neural net
-# • 2,464 from the forest
+#   â€¢ 3,555 from the linear regression
+# â€¢ 3,926 from the decision tree
+# â€¢ 11,016 from the neural net
+# â€¢ 2,464 from the forest
 # The forest model produced the best-fitting data.
