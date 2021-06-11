@@ -33,12 +33,12 @@ i=0
 AmesHousing$'Garage Finish' 
 
 # Writing Data in txt and xls Formats
-write.table(AmesHousing$'Garage Finish', "C:/Users/user50/Desktop/R Codes/Exporting Files/Garage Finish.txt", sep="\t")
+write.table(AmesHousing$'Garage Finish', ".../garageFinish.txt", sep="\t")
 #For Excel File
 # library(xlsx)
 # write.xlsx(mydata, "c:/mydata.xlsx")
 
 # Plotting Data and Save to File as PDF or PNG
-pdf("C:/Users/user50/Desktop/R Codes/Exporting Files/Garage Finish.pdf")
+pdf(".../garageFinish.pdf")
 plot(AmesHousing$'Garage Finish')
 dev.off()
