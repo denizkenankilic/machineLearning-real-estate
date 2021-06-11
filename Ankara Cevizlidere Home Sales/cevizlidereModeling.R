@@ -18,8 +18,8 @@ install.packages('earth')
 library(earth)
 
 # Read the excel files
-cevizlidere<-read_excel("denemegayrimenkul.cevizlidere.xlsx")
-fiyat_alan<-read_excel("cevizlidere alan fiyat.xlsx")
+cevizlidere<-read_excel("denemegayrimenkul_cevizlidere.xlsx")
+fiyat_alan<-read_excel("cevizlidere_alan_fiyat.xlsx")
 test_cevizlidere<-read_excel("test_cevizlidere.xlsx")
 alanlar<-fiyat_alan[,1]
 fiyatlar<-fiyat_alan[,2]
