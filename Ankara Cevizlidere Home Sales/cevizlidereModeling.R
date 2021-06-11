@@ -17,8 +17,8 @@ library('car')
 install.packages('earth')
 library(earth)
 
-#Excel dosyasını oku
-sincan<-read_excel("denemegayrimenkul.cevizlidere.xlsx")
+# Read the excel files
+cevizlidere<-read_excel("denemegayrimenkul.cevizlidere.xlsx")
 fiyat_alan<-read_excel("cevizlidere alan fiyat.xlsx")
 test_cevizlidere<-read_excel("test_cevizlidere.xlsx")
 alanlar<-fiyat_alan[,1]
@@ -33,24 +33,24 @@ alan_n3_train<-alan_n3[1:41,1]
 alan_n3_test<-alan_n3[42:56,1]
 fiyat_n4_train<-fiyat_n4[1:41,1]
 fiyat_n4_test<-fiyat_n4[42:56,1]
-sincan[1]=alan_n3_train
-sincan[2]=fiyat_n4_train
+cevizlidere[1]=alan_n3_train
+cevizlidere[2]=fiyat_n4_train
 test_cevizlidere[1]=alan_n3_test
 test_cevizlidere[2]=fiyat_n4_test
-# s1<-scale(sincan$Fiyat)
-# s2<-scale(sincan$Alan)
-# sincan[1]= abs(s2)
-# sincan[2]= abs(s1)
-trainset <- sincan[1:41,]
+# s1<-scale(cevizlidere$Fiyat)
+# s2<-scale(cevizlidere$Alan)
+# cevizlidere[1]= abs(s2)
+# cevizlidere[2]= abs(s1)
+trainset <- cevizlidere[1:41,]
 
-plot(sincan[,2], type="l")
+plot(cevizlidere[,2], type="l")
 
-lm.fit<-lm(Fiyat~.,data = sincan)
+lm.fit<-lm(Fiyat~.,data = cevizlidere)
 lm.fit2<-lm(Fiyat~ Alan+I(Alan^2)+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                       +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, data = sincan)
+                       +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, data = cevizlidere)
 install.packages("corrplot")
 library(corrplot)
-corrplot(cor(sincan), method="number", tl.cex=0.5)
+corrplot(cor(cevizlidere), method="number", tl.cex=0.5)
 panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...) {
   usr <- par("usr")
   on.exit(par(usr))
@@ -60,14 +60,14 @@ panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...) {
   txt <- paste0(prefix, txt)
   text(0.5, 0.5, txt)
 }
-pairs(sincan,lower.panel=panel.cor,pch=18)
+pairs(cevizlidere,lower.panel=panel.cor,pch=18)
 #lm.fit <- lm(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
- #            +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, data=sincan)
+#            +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, data=cevizlidere)
 lm.fit
 coef(lm.fit)
 predict(lm.fit2,data.frame(Alan=90, Konum=0.4, BinaYasi=0.4, Cephe=1, Ulasilabilirlik=0.7,
                           BulunduguKat=1, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                          KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1),
+                          KonutTÃ¼rÃ¼=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1),
         interval="confidence")
 
 residualPlots(lm.fit)
@@ -83,13 +83,13 @@ plot(lm.fit2)
 # function of the fitted values. Again, there should be no obvious trend in this plot.
 # Finally, the plot in the lower right shows each points leverage, which is a measure of its
 # importance in determining the regression result. Superimposed on the plot are contour
-# lines for the Cook’s distance, which is another measure of the importance of each
+# lines for the Cookâ€™s distance, which is another measure of the importance of each
 # observation to the regression. Smaller distances means that removing the observation has
 # little affect on the regression results. Distances larger than 1 are suspicious and suggest
 # the presence of a possible outlier or a poor model. 
 
-# id.n – id most influential observation
-# id.cex – font size for id.
+# id.n â€“ id most influential observation
+# id.cex â€“ font size for id.
 # Graphs outcome vs predictor variables holding the rest constant (also called partial-regression plots)
 # Help identify the effect (or influence) of an observation on the regression coefficient of the predictor variable
 avPlots(lm.fit, id.n=2, id.cex=0.7)
@@ -110,18 +110,18 @@ ncvTest(lm.fit)
 vif(lm.fit)
 # testing for multicolinearity
 # A gvif> 4 suggests collinearity.
-# “When there are strong linear relationships among the predictors in a regression analysis, the
+# â€œWhen there are strong linear relationships among the predictors in a regression analysis, the
 # precision of the estimated regression coefficients in linear models declines compared to what it
-# would have been were the predictors uncorrelated with each other” (Fox:359)
+# would have been were the predictors uncorrelated with each otherâ€ (Fox:359)
 
 
 lmfit <- train(Fiyat~., trainset, method="lm") 
 lmfit
 
-#glm.fit<-glm(Fiyat~., data=sincan, family=poisson())
+#glm.fit<-glm(Fiyat~., data=cevizlidere, family=poisson())
 
 # MARS Algorithm
-earth.mod<-earth(Fiyat~.,data=sincan)
+earth.mod<-earth(Fiyat~.,data=cevizlidere)
 plotmo(earth.mod)
 summary(earth.mod) #digits=2)#,style = "pmax"
 # m =matrix(c(170,110,140,147,135,140,200,120,120,208,150,157,165,145,145,340000,230000,350000,265000,315000,340000,
@@ -131,71 +131,71 @@ summary(earth.mod) #digits=2)#,style = "pmax"
 # bm<-s3*attr(s3,'scaled:scale')+attr(s3,'scaled:center')
 pred<-predict(earth.mod,data.frame(Alan=90, Konum=0.4, BinaYasi=0.2, Cephe=0.1, Ulasilabilirlik=0.5,
                           BulunduguKat=1, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                          KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
+                          KonutTÃ¼rÃ¼=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
 pred
 tahmin_fiyat <- pred*(max(fiyatlar)-min(fiyatlar))+min(fiyatlar)
 tahmin_fiyat
 head(resid(earth.mod, type="earth"))
 
-#Random Forest Algorithm
+# Random Forest Algorithm
 install.packages("randomForest")
 library(randomForest)
-forestFit <- randomForest(Fiyat~.,data=sincan)
+forestFit <- randomForest(Fiyat~.,data=cevizlidere)
 forestPredict <- predict(forestFit,data.frame(Alan=105, Konum=0.4, BinaYasi=0.4, Cephe=0.1, Ulasilabilirlik=0.5,
                           BulunduguKat=1, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                          KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
+                          KonutTÃ¼rÃ¼=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
 forestPredict
 diff <- forestPredict - housingTesting$MDEV
 
 # SVM
 install.packages('e1071')
 library(e1071)
-sv<-svm(Fiyat~.,data=sincan)
+sv<-svm(Fiyat~.,data=cevizlidere)
 pred.svm<-predict(sv,data.frame(Alan=110, Konum=1, BinaYasi=0.7, Cephe=0.3, Ulasilabilirlik=0.7,
                         BulunduguKat=0.7, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                        KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0.75, TeknikDonanim=0.8, Otopark=1))
+                        KonutTÃ¼rÃ¼=0.55, SosyalDonatilaraYakinlik=1, Prestij=0.75, TeknikDonanim=0.8, Otopark=1))
 pred.svm
 
-#Neural Network Training (Düzeltilmesi lazım predictionda hata var)
+# Neural Network Training (DÃ¼zeltilmesi lazÃ½m predictionda hata var)
 library(nnet)
 library(caret)
 nnet <- train(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                 +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=sincan,method='nnet')
+                 +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=cevizlidere,method='nnet')
 nnetPredict <- predict(nnet,data.frame(Alan=105, Konum=0.4, BinaYasi=0.4, Cephe=0.1, Ulasilabilirlik=0.5,
                           BulunduguKat=1, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                          KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
+                          KonutTÃ¼rÃ¼=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
 nnetPredict
 
-#Decision Tress
+# Decision Tress
 library(rpart)
 housingFit <- rpart(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                    +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, method="anova",
-                    data=sincan)
+                    +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, method="anova",
+                    data=cevizlidere)
 treePredict <- predict(housingFit,data.frame(Alan=90, Konum=0.4, BinaYasi=0.2, Cephe=1, Ulasilabilirlik=0.5,
                          BulunduguKat=1, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                        KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
+                        KonutTÃ¼rÃ¼=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
 treePredict
 
-# Neural Network emNN package (hep aynı predict geliyor, newdata işe yaramıyor)
+# Neural Network emNN package (hep aynÃ½ predict geliyor, newdata iÃ¾e yaramÃ½yor)
 install.packages('elmNN')
 library(elmNN)
 modelelmNN <- elmtrain(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                  +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, method="anova",
-                  data=sincan,nhid=2,actfun="sig")
+                  +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, method="anova",
+                  data=cevizlidere,nhid=2,actfun="sig")
 p<-predict.elmNN(modelelmNN,newdata=data.frame(Fiyat=0,Alan=70, Konum=0.4, BinaYasi=0.2, Cephe=1, Ulasilabilirlik=0.5,
                 BulunduguKat=0.7, Yapikalitesiankastre=0.4, TicariYogunluk=1,
-                KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0, Otopark=1))
+                KonutTÃ¼rÃ¼=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0, Otopark=1))
 p
 
 
 # nnet ! it works man!
 x<-set.seed(0)
 a<-nnet(Fiyat~I(Alan^2)+Konum+I(BinaYasi^2)+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-  +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=sincan
+  +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=cevizlidere
   ,size = 1, rang = 0.1, decay = 5e-4, maxit = 2000)#decay=0.001,maxit=5000)
 b<-predict(a,test_cevizlidere)
 b
-# sonrasında bulunan index*(max fiyat-min fiyat)+min fiyat, olması gereken fiyatı verecektir
+# sonrasÃ½nda bulunan index*(max fiyat-min fiyat)+min fiyat, olmasÃ½ gereken fiyatÃ½ verecektir
 # [,1]
 # 1  0.443988173 (326000)
 # 2  0.024204866 (235280)
@@ -217,9 +217,9 @@ b
 ### neuralnet package ###
 install.packages('neuralnet')
 library(neuralnet)
-dim(sincan)
+dim(cevizlidere)
 nn<-neuralnet(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-        +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=sincan,hidden=7,
+        +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=cevizlidere,hidden=7,
         err.fct="sse",linear.output=FALSE)
 nn
 plot(nn)
@@ -228,18 +228,18 @@ nn$weights
 nn$result.matrix
 
 nn$covariate
-sincan$Fiyat
+cevizlidere$Fiyat
 nn$net.result[[1]]
 ### For Classified Outputs ###
 # for classify nn1=ifelse(nn$net.result[[1]]>0.5,1,0)
 # nn1
-# misClassificationError=mean(sincan$Fiyat!=nn1)
+# misClassificationError=mean(cevizlidere$Fiyat!=nn1)
 # misClassificationError
-# OutPutVsPred=cbind(sincan$Fiyat,nn1)
+# OutPutVsPred=cbind(cevizlidere$Fiyat,nn1)
 # OutPutVsPred
 ### Classic Backpropagation ###
 nn.bp=neuralnet(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=sincan,hidden=7,
+                +KonutTÃ¼rÃ¼+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=cevizlidere,hidden=7,
                 learningrate=0.01, algorithm="backprop", err.fct="ce",linear.output=FALSE)
 nn #nn.bp has better result if we consider error
 plot(nn.bp)
@@ -249,9 +249,9 @@ nn.bp$weights
 nn.bp$result.matrix
 
 nn.bp$covariate
-sincan$Fiyat
+cevizlidere$Fiyat
 nn.bp$net.result[[1]]
-OutPutVsPred=cbind(sincan$Fiyat,nn.bp$net.result[[1]])
+OutPutVsPred=cbind(cevizlidere$Fiyat,nn.bp$net.result[[1]])
 OutPutVsPred
 ### Predictions ###
 test.a<-matrix(c(test_cevizlidere[,1],test_cevizlidere[,3],test_cevizlidere[,4],test_cevizlidere[,5],
@@ -292,12 +292,12 @@ gwplot(nn.bp,selected.covariate = "Ulasilabilirlik",min=-5,max=15)
 gwplot(nn.bp,selected.covariate = "BulunduguKat",min=-5,max=15)
 gwplot(nn.bp,selected.covariate = "Yapikalitesiankastre",min=-5,max=15)
 gwplot(nn.bp,selected.covariate = "TicariYogunluk",min=-5,max=15)
-gwplot(nn.bp,selected.covariate = "KonutTürü",min=-5,max=15)
+gwplot(nn.bp,selected.covariate = "KonutTÃ¼rÃ¼",min=-5,max=15)
 gwplot(nn.bp,selected.covariate = "SosyalDonatilaraYakinlik",min=-5,max=15)
 gwplot(nn.bp,selected.covariate = "Prestij",min=-5,max=15)
 gwplot(nn.bp,selected.covariate = "TeknikDonanim",min=-5,max=15)
 gwplot(nn.bp,selected.covariate = "Otopark",min=-5,max=15)
 
 #glm<-glm(Fiyat~.,data=test_cevizlidere)
-#b<-prediction(a,glm) #hatayı incele
+#b<-prediction(a,glm)
 #b
