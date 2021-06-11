@@ -156,46 +156,17 @@ pred.svm<-predict(sv,data.frame(Alan=110, Konum=1, BinaYasi=0.7, Cephe=0.3, Ulas
                         KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0.75, TeknikDonanim=0.8, Otopark=1))
 pred.svm
 
-# Neural Network Training (Düzeltilmesi lazým predictionda hata var)
+# Neural Network Training
 library(nnet)
 library(caret)
-nnet <- train(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                 +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=cevizlidere,method='nnet')
-nnetPredict <- predict(nnet,data.frame(Alan=105, Konum=0.4, BinaYasi=0.4, Cephe=0.1, Ulasilabilirlik=0.5,
-                          BulunduguKat=1, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                          KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
-nnetPredict
 
-# Decision Tress
-library(rpart)
-housingFit <- rpart(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                    +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, method="anova",
-                    data=cevizlidere)
-treePredict <- predict(housingFit,data.frame(Alan=90, Konum=0.4, BinaYasi=0.2, Cephe=1, Ulasilabilirlik=0.5,
-                         BulunduguKat=1, Yapikalitesiankastre=0.8, TicariYogunluk=1,
-                        KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0.5, Otopark=1))
-treePredict
-
-# Neural Network emNN package (hep ayný predict geliyor, newdata iþe yaramýyor)
-install.packages('elmNN')
-library(elmNN)
-modelelmNN <- elmtrain(Fiyat~Alan+Konum+BinaYasi+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
-                  +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark, method="anova",
-                  data=cevizlidere,nhid=2,actfun="sig")
-p<-predict.elmNN(modelelmNN,newdata=data.frame(Fiyat=0,Alan=70, Konum=0.4, BinaYasi=0.2, Cephe=1, Ulasilabilirlik=0.5,
-                BulunduguKat=0.7, Yapikalitesiankastre=0.4, TicariYogunluk=1,
-                KonutTürü=0.55, SosyalDonatilaraYakinlik=1, Prestij=0, TeknikDonanim=0, Otopark=1))
-p
-
-
-# nnet ! it works man!
 x<-set.seed(0)
 a<-nnet(Fiyat~I(Alan^2)+Konum+I(BinaYasi^2)+Cephe+Ulasilabilirlik+BulunduguKat+Yapikalitesiankastre+TicariYogunluk
   +KonutTürü+SosyalDonatilaraYakinlik+Prestij+TeknikDonanim+Otopark,data=cevizlidere
   ,size = 1, rang = 0.1, decay = 5e-4, maxit = 2000)#decay=0.001,maxit=5000)
 b<-predict(a,test_cevizlidere)
 b
-# sonrasýnda bulunan index*(max fiyat-min fiyat)+min fiyat, olmasý gereken fiyatý verecektir
+# sonrasında bulunan index*(max fiyat-min fiyat)+min fiyat, olması gereken fiyatı verecektir
 # [,1]
 # 1  0.443988173 (326000)
 # 2  0.024204866 (235280)
