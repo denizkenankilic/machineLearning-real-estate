@@ -1,0 +1,8 @@
+library(mlbench)
+data(BostonHousing)
+require(caret)
+mygrid <- expand.grid(.decay=c(0.5, 0.1), .size=c(4,5,6))
+nnetfit <- train(medv/50 ~ ., data=BostonHousing, method="nnet", maxit=1000, tuneGrid=mygrid, trace=F) 
+print(nnetfit)
+lmfit <- train(medv/50 ~ ., data=BostonHousing, method="lm") 
+print(lmfit)
