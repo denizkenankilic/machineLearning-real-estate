@@ -9,6 +9,6 @@ This repository contains data analyses, linear and nonlinear modelings, machine 
 
 **Boston Housing:** We compare the rmse values of NN and linear regression of the Boston Housing data.
 
-**Housing Data ML:** Predictions and classifications are calculated by several algorithms like linear regression, logistic regression, least square regression, stepwise regression, k-nearest neighbor, k-means clustering, decision tree, AdaBoost, neural network, naive bayes and randon forest for Housing Dataset.
+**Housing Data ML:** Predictions and classifications are calculated by several algorithms such as linear regression, logistic regression, least square regression, stepwise regression, k-nearest neighbor, k-means clustering, decision tree, AdaBoost, neural network, naive bayes and randon forest for Housing Dataset.
 
 **San Francisco Home Sales:** In this folder there is a code to analyze and visualize the San Francisco Home Sales data.
