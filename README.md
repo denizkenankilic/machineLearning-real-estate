@@ -5,7 +5,7 @@ This repository contains data analyses, linear and nonlinear modelings, machine 
 
 **Ames Housing:** Code is about reading and plotting the Ames Housing (xls format) data.
 
-**Ankara Cevizlidere Home Sales:** The xlsx files of the training, the test and area&price list of all data are given. In "cevizlidereModeling.R" file there are several modeling algorithms like linear regression, MARS, random forest, neural network, SVM, decision tree,  
+**Ankara Cevizlidere Real Estate Sales:** The xlsx files of the training, the test and area&price list of all data are given. In "cevizlidereModeling.R" file there are several modeling algorithms like linear regression, MARS, random forest, neural network, SVM, decision tree,  
 
 **Boston Housing:** We compare the rmse values of NN and linear regression of the Boston Housing data.
 
