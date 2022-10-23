@@ -1,7 +1,7 @@
 # machineLearning-real-estate
 Linear and Nonlinear Models for Real Estate Data
 
-This repository contains data analyses, linear and nonlinear modelings, machine learning codes for different real estate datasets. Folders include:
+This repository contains data analyses, linear and nonlinear modelings, machine learning codes for different real estate datasets. Folders include the followings:
 
 **Ames Housing:** Code is about reading and plotting the Ames Housing (xls format) data.
 
